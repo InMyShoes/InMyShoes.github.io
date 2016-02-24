@@ -1,36 +1,46 @@
-<!DOCTYPE html>
-<html>
-	<head>
-	<meta charset="UTF-8" />
-	<meta name="keywords" content="HTML, CSS, XML, XHTML, JavaScript, Photography, Music, Mechanical, Engineering" />
-	<meta name="description" content="A Trip on a Road called Life" />
-	<meta name="author" content="David Chon" />
+---
+layout: page
+title: My website
+subtitle: This is where I will tell my friends way too much about me
+---
 
-	<title>
-		In My Shoes
-	</title>
-	</head>
+<div class="posts-list">
+  {% for post in paginator.posts %}
+  <article class="post-preview">
+    <a href="{{ post.url | prepend: site.baseurl }}">
+	  <h2 class="post-title">{{ post.title }}</h2>
+	
+	  {% if post.subtitle %}
+	  <h3 class="post-subtitle">
+	    {{ post.subtitle }}
+	  </h3>
+	  {% endif %}  
+    </a>
 
-	<body>
-		<div class="wrap">
-			<div class="master-nav">
-				<div class="nav">
-					<ul class="top-menu">
-						<li><a href="/"><i class="fa fa-home"></i>Home</a></li>
-						<li><a href="/about.html"><i class="fa fa-info-circle"></i>About</a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
+    <p class="post-meta">
+      Posted on {{ post.date | date: "%B %-d, %Y" }}
+    </p>
+  
+    <div class="post-entry">
+      {{ post.content | truncatewords: 50 | strip_html | xml_escape}}
+	  <a href="{{ post.url | prepend: site.baseurl }}" class="post-read-more">[Read&nbsp;More]</a>
+    </div>
+  
+   </article>
+  {% endfor %}
+</div>
 
-		<div class="masthead">
-			<div class="container">
-				<h2 class="masterhead-title">
-					<a href="/" title="Home">In My Shoes</a>
-					<small>A Trip on a Road called Life</small>
-				</h2>
-			<div class="footer-social-links">
-
-	</body>
-
-</html>
+{% if paginator.total_pages > 1 %}
+<ul class="pager main-pager">
+  {% if paginator.previous_page %}
+  <li class="previous">
+    <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">&larr; Newer Posts</a>
+  </li>
+  {% endif %}
+  {% if paginator.next_page %}
+  <li class="next">
+    <a href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">Older Posts &rarr;</a>
+  </li>
+  {% endif %}
+</ul>
+{% endif %}
